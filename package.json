@@ -22,6 +22,7 @@
     "react-dom": "^18",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
+    "vercel": "^34.2.4",
     "viem": "^2.13.2",
     "wagmi": "^2.9.8"
   },
