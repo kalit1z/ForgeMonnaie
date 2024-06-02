@@ -3,10 +3,11 @@ import { useReadContract, useAccount } from "wagmi";
 import { contractAddress, contractAbi, tokenAbi } from "@/constants";
 import { Card, CardContent } from "../ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Button } from "../ui/button"; // Assurez-vous d'importer un composant de bouton approprié
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 const GetWishList = () => {
-    const fetchTokens = [...Array(101).keys()]; // Indices des tokens à récupérer
+    const fetchTokens = [...Array(101).keys()];
 
     function getToken(index) {
         if (index >= 0 && index < fetchTokens.length) {
@@ -54,15 +55,6 @@ const GetWishList = () => {
         });
     });
 
-    const handleAddLiquidity = (tokenAddress) => {
-        const url = `https://app.uniswap.org/#/add/v2/${tokenAddress}/ETH`;
-        window.open(url, '_blank');
-    };
-
-    const handleSwap = (tokenAddress) => {
-        const url = `https://app.uniswap.org/#/swap?inputCurrency=${tokenAddress}&outputCurrency=ETH`;
-        window.open(url, '_blank');
-    };
 
     return (
         <div className="get">
@@ -111,12 +103,11 @@ const GetWishList = () => {
                                             </TableRow>
                                             <TableRow>
                                                 <TableCell colSpan={2} style={{ textAlign: 'right' }}>
-                                                    <Button onClick={() => handleAddLiquidity(tokenData.data[0])}>
-                                                        Ajouter de la liquidité
-                                                    </Button>
-                                                    <Button onClick={() => handleSwap(tokenData.data[0])} style={{ marginLeft: '10px' }}>
-                                                        Swap
-                                                    </Button>
+                                                    <Link href={`/get/${index}`}>
+                                                        <Button style={{ marginLeft: '10px' }}>
+                                                            Voir plus
+                                                        </Button>
+                                                    </Link>
                                                 </TableCell>
                                             </TableRow>
                                         </TableBody>
