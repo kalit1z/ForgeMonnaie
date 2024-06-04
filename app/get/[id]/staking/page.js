@@ -1,11 +1,11 @@
 'use client';
 
 import NotConnected from "@/components/shared/NotConnected";
-import Staking from "@/components/shared/Staking";
+import Staking from "@/components/shared/staking";
 import { useAccount } from "wagmi";
 import { useParams } from "next/navigation";
 
-const StakingPage = () => {
+const TokenInfo = () => {
     const { isConnected } = useAccount();
     const { id } = useParams();
 
@@ -20,4 +20,4 @@ const StakingPage = () => {
     );
 };
 
-export default StakingPage;
+export default TokenInfo;
