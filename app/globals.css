@@ -10,24 +10,15 @@
 }
 
 .navbar {
-  @apply flex-between px-10 py-5 bg-white border-b;
+  @apply flex justify-between px-10 py-5 bg-white border-b;
 }
 
 .main {
-  @apply flex-center grow h-full;
+  @apply flex justify-center items-center grow h-full;
 }
 
 .footer {
-  @apply w-full flex-center p-10;
-}
-
-/* Helpers */
-.flex-between {
-  @apply flex justify-between items-center;
-}
-
-.flex-center {
-  @apply flex justify-center items-center;
+  @apply w-full flex justify-center items-center p-10;
 }
 
 /* HOME */
@@ -37,6 +28,7 @@
 
 .home_inner {
   @apply text-center max-w-5xl m-auto p-5;
+  @apply p-4 md:p-0; /* Added padding for mobile */
 }
 
 .home_inner_title {
@@ -52,7 +44,7 @@
 }
 
 .home_inner_links {
-  @apply mt-5 flex-center;
+  @apply mt-5 flex justify-center items-center;
 }
 
 .home_inner_links_button1 {
@@ -117,6 +109,42 @@
   @apply bg-[#C8B1F4] border-none rounded-none text-gray-900;
 }
 
+/* TokenDetails */
+.token-details {
+  @apply flex flex-col md:flex-row justify-between items-center mt-5;
+}
+
+.token-card {
+  @apply w-full md:w-3/4 mt-5 md:mr-5;
+}
+
+.token-card-content {
+  @apply w-full;
+}
+
+.token-table-row {
+  @apply flex flex-col md:flex-row;
+}
+
+.token-table-cell {
+  @apply font-bold md:w-1/2;
+}
+
+.token-table-cell-content {
+  @apply md:w-1/2;
+}
+
+.token-table-cell-content-break {
+  @apply md:w-1/2 break-all;
+}
+
+.token-actions {
+  @apply flex flex-col items-center justify-center mt-5 md:mt-0 md:ml-5;
+}
+
+.token-button {
+  @apply mb-2 bg-[#C8B1F4] text-gray-900;
+}
 
 @layer base {
   :root {

@@ -4,6 +4,7 @@ import { contractAddress, contractAbi, tokenAbi } from "@/constants";
 import { Card, CardContent } from "../ui/card";
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 import { Button } from "../ui/button";
+import Link from 'next/link';
 
 const TokenDetails = ({ tokenId }) => {
     const { address } = useAccount();
@@ -37,30 +38,30 @@ const TokenDetails = ({ tokenId }) => {
     };
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '20px' }}>
-            <Card className="mt-5">
+        <div className="flex flex-col md:flex-row justify-between items-center mt-5">
+            <Card className="w-full md:w-3/4 mt-5 md:mr-5">
                 <CardContent>
-                    <Table>
+                    <Table className="w-full">
                         <TableBody>
-                            <TableRow>
-                                <TableCell>Nom</TableCell>
-                                <TableCell>{tokenData.data[1]}</TableCell>
+                            <TableRow className="flex flex-col md:flex-row">
+                                <TableCell className="font-bold md:w-1/2">Nom</TableCell>
+                                <TableCell className="md:w-1/2">{tokenData.data[1]}</TableCell>
                             </TableRow>
-                            <TableRow>
-                                <TableCell>Symbole</TableCell>
-                                <TableCell>{tokenData.data[2]}</TableCell>
+                            <TableRow className="flex flex-col md:flex-row">
+                                <TableCell className="font-bold md:w-1/2">Symbole</TableCell>
+                                <TableCell className="md:w-1/2">{tokenData.data[2]}</TableCell>
                             </TableRow>
-                            <TableRow>
-                                <TableCell>Token Adresse</TableCell>
-                                <TableCell>{tokenData.data[0]}</TableCell>
+                            <TableRow className="flex flex-col md:flex-row">
+                                <TableCell className="font-bold md:w-1/2">Token Adresse</TableCell>
+                                <TableCell className="md:w-1/2 break-all">{tokenData.data[0]}</TableCell>
                             </TableRow>
-                            <TableRow>
-                                <TableCell>Supply</TableCell>
-                                <TableCell>{(parseFloat(tokenData.data[3].toString()) / Math.pow(10, 18)).toString()}</TableCell>
+                            <TableRow className="flex flex-col md:flex-row">
+                                <TableCell className="font-bold md:w-1/2">Supply</TableCell>
+                                <TableCell className="md:w-1/2">{(parseFloat(tokenData.data[3].toString()) / Math.pow(10, 18)).toString()}</TableCell>
                             </TableRow>
-                            <TableRow>
-                                <TableCell>Solde</TableCell>
-                                <TableCell>
+                            <TableRow className="flex flex-col md:flex-row">
+                                <TableCell className="font-bold md:w-1/2">Solde</TableCell>
+                                <TableCell className="md:w-1/2">
                                     {(parseFloat(balanceData.data.toString()) / Math.pow(10, 18)).toString()}{" "}
                                     ({((parseFloat(balanceData.data.toString()) / parseFloat(tokenData.data[3].toString())) * 100).toFixed(2)}%)
                                 </TableCell>
@@ -69,13 +70,18 @@ const TokenDetails = ({ tokenId }) => {
                     </Table>
                 </CardContent>
             </Card>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginLeft: '20px' }}>
-                <Button onClick={() => handleAddLiquidity(tokenData.data[0])} style={{ marginBottom: '10px' }}>
+            <div className="flex flex-col items-center justify-center mt-5 md:mt-0 md:ml-5">
+                <Button onClick={() => handleAddLiquidity(tokenData.data[0])} className="mb-2 bg-[#C8B1F4] text-gray-900">
                     Ajouter de la liquidité
                 </Button>
-                <Button onClick={() => handleSwap(tokenData.data[0])}>
+                <Button onClick={() => handleSwap(tokenData.data[0])} className="mb-2 bg-[#C8B1F4] text-gray-900">
                     Swap
                 </Button>
+                <Link href={`/get/${tokenId}/staking`} passHref>
+                    <Button className="bg-[#C8B1F4] text-gray-900">
+                        Staking
+                    </Button>
+                </Link>
             </div>
         </div>
     );

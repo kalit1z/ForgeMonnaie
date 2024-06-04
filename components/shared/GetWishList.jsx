@@ -55,11 +55,12 @@ const GetWishList = () => {
         });
     });
 
-
     return (
-        <div className="get">
-            <div className="get_inner">
-                <h1 style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '2rem' }}>Vos tokens</h1>
+        <div className="get w-full h-fit">
+            <div className="get_inner max-w-5xl m-auto p-5">
+                <h1 className="text-4xl md:text-6xl font-extrabold tracking-tighter text-gray-900 mb-5 text-center">
+                    Vos tokens
+                </h1>
                 {tokensData.map((tokenData, index) => {
                     if (tokenData.data) {
                         const balanceData = balancesData[index];
@@ -76,35 +77,35 @@ const GetWishList = () => {
                         return (
                             <Card key={index} className="mt-5">
                                 <CardContent>
-                                    <Table>
+                                    <Table className="w-full">
                                         <TableBody>
-                                            <TableRow>
-                                                <TableCell>Nom</TableCell>
-                                                <TableCell>{tokenData.data[1]}</TableCell>
+                                            <TableRow className="flex flex-col md:flex-row">
+                                                <TableCell className="font-bold md:w-1/2">Nom</TableCell>
+                                                <TableCell className="md:w-1/2">{tokenData.data[1]}</TableCell>
                                             </TableRow>
-                                            <TableRow>
-                                                <TableCell>Symbole</TableCell>
-                                                <TableCell>{tokenData.data[2]}</TableCell>
+                                            <TableRow className="flex flex-col md:flex-row">
+                                                <TableCell className="font-bold md:w-1/2">Symbole</TableCell>
+                                                <TableCell className="md:w-1/2">{tokenData.data[2]}</TableCell>
                                             </TableRow>
-                                            <TableRow>
-                                                <TableCell>Token Adresse</TableCell>
-                                                <TableCell>{tokenData.data[0]}</TableCell>
+                                            <TableRow className="flex flex-col md:flex-row">
+                                                <TableCell className="font-bold md:w-1/2">Token Adresse</TableCell>
+                                                <TableCell className="md:w-1/2 break-all">{tokenData.data[0]}</TableCell>
                                             </TableRow>
-                                            <TableRow>
-                                                <TableCell>Supply</TableCell>
-                                                <TableCell>{(parseFloat(tokenData.data[3].toString()) / Math.pow(10, 18)).toString()}</TableCell>
+                                            <TableRow className="flex flex-col md:flex-row">
+                                                <TableCell className="font-bold md:w-1/2">Supply</TableCell>
+                                                <TableCell className="md:w-1/2">{(parseFloat(tokenData.data[3].toString()) / Math.pow(10, 18)).toString()}</TableCell>
                                             </TableRow>
-                                            <TableRow>
-                                                <TableCell>Solde</TableCell>
-                                                <TableCell>
+                                            <TableRow className="flex flex-col md:flex-row">
+                                                <TableCell className="font-bold md:w-1/2">Solde</TableCell>
+                                                <TableCell className="md:w-1/2">
                                                     {(parseFloat(balanceData.data.toString()) / Math.pow(10, 18)).toString()}{" "}
                                                     ({((parseFloat(balanceData.data.toString()) / parseFloat(tokenData.data[3].toString())) * 100).toFixed(2)}%)
                                                 </TableCell>
                                             </TableRow>
                                             <TableRow>
-                                                <TableCell colSpan={2} style={{ textAlign: 'right' }}>
+                                                <TableCell colSpan={2} className="text-right">
                                                     <Link href={`/get/${index}`}>
-                                                        <Button style={{ marginLeft: '10px' }}>
+                                                        <Button className="ml-2 bg-[#C8B1F4] text-gray-900">
                                                             Voir plus
                                                         </Button>
                                                     </Link>
