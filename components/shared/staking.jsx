@@ -8,6 +8,45 @@ import { Input } from "../ui/input";
 import { Card, CardContent } from "../ui/card";
 import Link from 'next/link';
 
+const StakingContractInfo = ({ contract, tokenData, tokenId }) => {
+  const { data: stakingToken, error: stakingTokenError } = useReadContract({
+    address: contract,
+    abi: contractUSerstakingAbi,
+    functionName: 'stakingToken',
+  });
+
+  const { data: rewardRate, error: rewardRateError } = useReadContract({
+    address: contract,
+    abi: contractUSerstakingAbi,
+    functionName: 'rewardRate',
+  });
+
+  if (stakingTokenError) {
+    return <p style={{ color: 'red' }}>Erreur de chargement du staking token pour le contrat {contract}: {stakingTokenError.message}</p>;
+  }
+
+  if (rewardRateError) {
+    return <p style={{ color: 'red' }}>Erreur de chargement du taux de récompense pour le contrat {contract}: {rewardRateError.message}</p>;
+  }
+
+  // Vérifier si le stakingToken correspond à tokenData[0]
+  if (stakingToken !== tokenData[0]) {
+    return null; // Ne pas afficher ce contrat
+  }
+
+  return (
+    <tr>
+      <td>{contract}</td>
+      <td style={{ textAlign: 'center' }}>{rewardRate ? rewardRate.toString() : 'Loading...'}</td>
+      <td>
+        <Link href={`/get/${tokenId}/staking/${contract}`} passHref>
+          <Button>Aller au Staking Contract</Button>
+        </Link>
+      </td>
+    </tr>
+  );
+};
+
 const TokenInfo = ({ tokenId }) => {
   const { address } = useAccount();
 
@@ -36,42 +75,12 @@ const TokenInfo = ({ tokenId }) => {
   const [createStakingPending, setCreateStakingPending] = useState(false);
   const [createStakingHash, setCreateStakingHash] = useState(null);
   const [createStakingError, setCreateStakingError] = useState(null);
-  const [stakingTokenMap, setStakingTokenMap] = useState([]);
 
   useEffect(() => {
     if (creationFeeData) {
       setCreationFee(creationFeeData.toString());
     }
   }, [creationFeeData]);
-
-  useEffect(() => {
-    const fetchStakingTokens = async () => {
-      if (stakingContracts) {
-        const tokenMap = [];
-        for (const contract of stakingContracts) {
-          const stakingToken = await getStakingToken(contract);
-          tokenMap.push({ contract, stakingToken });
-        }
-        setStakingTokenMap(tokenMap);
-      }
-    };
-
-    const getStakingToken = async (contract) => {
-      try {
-        const { data: stakingToken } = await useReadContract({
-          address: contract,
-          abi: contractUSerstakingAbi,
-          functionName: 'stakingToken',
-        });
-        return stakingToken;
-      } catch (error) {
-        console.error("Erreur lors de la récupération du staking token:", error);
-        return null;
-      }
-    };
-
-    fetchStakingTokens();
-  }, [stakingContracts]);
 
   const { writeContract: writeCreateStaking } = useWriteContract();
 
@@ -172,23 +181,13 @@ const TokenInfo = ({ tokenId }) => {
                 <thead>
                   <tr>
                     <th>Adresse du Contrat de Staking</th>
-                    <th>Staking Token</th>
+                    <th>Reward Rate (%)</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {stakingTokenMap.map(({ contract, stakingToken }, index) => (
-                    <tr key={index}>
-                      <td>{contract}</td>
-                      <td>{stakingToken}</td>
-                      <td>
-                        <Link href={`/get/${tokenId}/staking/${contract}`} passHref>
-                          <Button>
-                            Aller au Staking Contract
-                          </Button>
-                        </Link>
-                      </td>
-                    </tr>
+                  {stakingContracts && stakingContracts.map((contract) => (
+                    <StakingContractInfo key={contract} contract={contract} tokenData={tokenData} tokenId={tokenId} />
                   ))}
                 </tbody>
               </table>
